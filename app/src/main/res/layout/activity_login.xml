@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="com.firozmemon.wallet.ui.login.LoginActivity">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineVertical05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineVertical50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineVertical95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineHorizontal05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineHorizontal50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineHorizontal95"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineHorizontal50"
+        app:layout_constraintLeft_toLeftOf="@+id/guidelineVertical05"
+        app:layout_constraintRight_toLeftOf="@+id/guidelineVertical95"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontal05"
+        app:srcCompat="@drawable/icon" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/usernameTextInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:theme="@style/TextInputLayoutSetup"
+        app:hintTextAppearance="@style/TextInputLayoutAppearance"
+        app:layout_constraintLeft_toLeftOf="@+id/guidelineVertical05"
+        app:layout_constraintRight_toLeftOf="@+id/guidelineVertical95"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontal50">
+
+        <EditText
+            android:id="@+id/usernameEditText"
+            style="@style/MyEditText.Credential.Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_user"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_user"
+            android:hint="Username" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordTextInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:theme="@style/TextInputLayoutSetup"
+        app:hintTextAppearance="@style/TextInputLayoutAppearance"
+        app:layout_constraintLeft_toLeftOf="@+id/guidelineVertical05"
+        app:layout_constraintRight_toLeftOf="@+id/guidelineVertical95"
+        app:layout_constraintTop_toBottomOf="@+id/usernameTextInputLayout">
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            style="@style/MyEditText.Credential.Password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_lock"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_lock"
+            android:hint="Password" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/signInButton"
+        style="@style/Button.Flat.Primary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Sign in"
+        app:layout_constraintBottom_toTopOf="@+id/createAccountTextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />
+
+    <TextView
+        android:id="@+id/createAccountTextView"
+        style="@style/MyTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Create Account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
+
+</android.support.constraint.ConstraintLayout>
