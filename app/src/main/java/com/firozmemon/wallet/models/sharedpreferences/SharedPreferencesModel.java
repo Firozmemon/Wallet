@@ -3,6 +3,7 @@ package com.firozmemon.wallet.models.sharedpreferences;
 import android.content.SharedPreferences;
 
 import com.firozmemon.wallet.models.Login;
+import com.firozmemon.wallet.models.SignUp;
 
 import java.util.concurrent.Callable;
 
@@ -41,35 +42,28 @@ public class SharedPreferencesModel implements SharedPreferencesRepository {
     }
 
     @Override
-    public Single<Boolean> checkIsUserLoggedIn(final SharedPreferences sharedPreferences) {
+    public Single<Boolean> createUser(final SharedPreferences.Editor editor, final SignUp signUpData) {
         return Single.fromCallable(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                // TODO: 14/5/17 Check Username & Password, instead of isLoggedIn Flag
-                return Boolean.valueOf(sharedPreferences.getBoolean("isLoggedIn", false));
+
+                if (signUpData != null) {
+                    String username = signUpData.getUsername();
+                    String email = signUpData.getEmail();
+                    String password = signUpData.getPassword();
+
+                    if (!("".equals(username)) && !("".equals(email)) && !("".equals(password))) {  // Flipped equals condition, to prevent NullPointerException
+                        editor.putString("username", username);
+                        editor.putString("email", email);
+                        editor.putString("password", password);
+
+                        return editor.commit();
+                    }
+                }
+                return Boolean.FALSE;
             }
         });
     }
 
-    @Override
-    public Single<Boolean> updateUserLoggedIn(final SharedPreferences.Editor sharedPreferencesEditor) {
-        return Single.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return Boolean.valueOf(sharedPreferencesEditor.putBoolean("isLoggedIn", true)
-                        .commit());
-            }
-        });
-    }
 
-    @Override
-    public Single<Boolean> updateUserLoggedOut(final SharedPreferences.Editor sharedPreferencesEditor) {
-        return Single.fromCallable(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return Boolean.valueOf(sharedPreferencesEditor.putBoolean("isLoggedIn", false)
-                        .commit());
-            }
-        });
-    }
 }

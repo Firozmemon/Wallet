@@ -3,6 +3,7 @@ package com.firozmemon.wallet.models.sharedpreferences;
 import android.content.SharedPreferences;
 
 import com.firozmemon.wallet.models.Login;
+import com.firozmemon.wallet.models.SignUp;
 
 import io.reactivex.Single;
 
@@ -14,9 +15,5 @@ public interface SharedPreferencesRepository {
 
     Single<Boolean> checkLoginCredentials(SharedPreferences sharedPreferences, Login login);
 
-    Single<Boolean> checkIsUserLoggedIn(SharedPreferences sharedPreferences);
-
-    Single<Boolean> updateUserLoggedIn(SharedPreferences.Editor sharedPreferencesEditor);
-
-    Single<Boolean> updateUserLoggedOut(SharedPreferences.Editor sharedPreferencesEditor);
+    Single<Boolean> createUser(SharedPreferences.Editor editor, SignUp signUpData);
 }

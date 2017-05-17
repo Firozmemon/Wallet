@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import com.firozmemon.wallet.Constants;
 import com.firozmemon.wallet.WalletApplication;
 import com.firozmemon.wallet.models.Login;
+import com.firozmemon.wallet.models.SignUp;
 import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesModel;
 import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesRepository;
 
@@ -16,38 +17,32 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by firoz on 14/5/17.
+ * Created by firoz on 17/5/17.
  */
 @Module
-public class AppModule {
+public class ModelsModule {
 
     private final WalletApplication application;
 
-    public AppModule(WalletApplication application) {
+    public ModelsModule(WalletApplication application) {
         this.application = application;
     }
 
-    @Provides
-    @Singleton
-    Context provideApplicationContext() {
-        return application;
-    }
 
     @Provides
     @Singleton
-    Resources provideApplicationResource(Context context) {
-        return context.getResources();
+    SharedPreferencesRepository providesSharedPreferencesRepository() {
+        return new SharedPreferencesModel();
     }
 
     @Provides
-    @Singleton
-    SharedPreferences provideSharedPreference(Context context) {
-        return context.getSharedPreferences(Constants.SHARED_PREFS, Context.MODE_PRIVATE);
+    Login providesLoginModel() {
+        return new Login();
     }
 
     @Provides
-    @Singleton
-    SharedPreferences.Editor provideSharedPreferenceEditor(SharedPreferences preferences) {
-        return preferences.edit();
+    SignUp providesSignUpModel() {
+        return new SignUp();
     }
+
 }

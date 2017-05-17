@@ -50,7 +50,7 @@ public class LoginActivityPresenterTest {
         presenter = new LoginActivityPresenter(view, preferencesRepository,
                 preferences, Schedulers.trampoline());
 
-        RxJavaPlugins.setComputationSchedulerHandler(new Function<Scheduler, Scheduler>() {
+        RxJavaPlugins.setIoSchedulerHandler(new Function<Scheduler, Scheduler>() {
             @Override
             public Scheduler apply(@NonNull Scheduler scheduler) throws Exception {
                 return Schedulers.trampoline();

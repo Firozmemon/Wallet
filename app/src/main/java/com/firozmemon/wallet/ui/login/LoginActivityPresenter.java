@@ -37,7 +37,7 @@ public class LoginActivityPresenter {
 
     public void signInClicked(Login login) {
         compositeDisposable.add(preferencesRepository.checkLoginCredentials(preferences,login)
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.io())
                 .observeOn(mainScheduler)
                 .subscribeWith(new DisposableSingleObserver<Boolean>() {
                     @Override

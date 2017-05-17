@@ -1,5 +1,6 @@
 package com.firozmemon.wallet.ui.login;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firozmemon.wallet.ui.signup.CreateAccountActivity;
 import com.firozmemon.wallet.R;
 import com.firozmemon.wallet.WalletApplication;
 import com.firozmemon.wallet.models.Login;
@@ -23,10 +25,8 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityVie
 
     @Inject
     Login login;
-
     @Inject
     SharedPreferencesRepository sharedPreferencesRepository;
-
     @Inject
     SharedPreferences sharedPreferences;
 
@@ -75,7 +75,8 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityVie
 
     @Override
     public void goToCreateAccountActivity() {
-        Toast.makeText(LoginActivity.this, "GOTO CreateAccount Activity", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+        startActivity(intent);
     }
 
     @Override

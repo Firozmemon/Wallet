@@ -31,6 +31,10 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
 
+    <style name="MyTextView.Header">
+        <item name="android:textSize">34sp</item>
+    </style>
+
     <!--*********** Text Input Layouts ***********-->
     <style name="TextInputLayoutSetup" parent="TextAppearance.AppCompat">
         <!-- Hint color and label color in FALSE state -->
