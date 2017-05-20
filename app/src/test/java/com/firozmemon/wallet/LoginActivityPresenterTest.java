@@ -2,6 +2,7 @@ package com.firozmemon.wallet;
 
 import android.content.SharedPreferences;
 
+import com.firozmemon.wallet.database.DatabaseRepository;
 import com.firozmemon.wallet.models.Login;
 import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesRepository;
 import com.firozmemon.wallet.ui.login.LoginActivityPresenter;
@@ -38,17 +39,14 @@ public class LoginActivityPresenterTest {
     @Mock
     LoginActivityView view;
     @Mock
-    SharedPreferencesRepository preferencesRepository;
-    @Mock
-    SharedPreferences preferences;
+    DatabaseRepository databaseRepository;
 
     Login login;
     LoginActivityPresenter presenter;
 
     @Before
     public void setUp() {
-        presenter = new LoginActivityPresenter(view, preferencesRepository,
-                preferences, Schedulers.trampoline());
+        presenter = new LoginActivityPresenter(view, databaseRepository, Schedulers.trampoline());
 
         RxJavaPlugins.setIoSchedulerHandler(new Function<Scheduler, Scheduler>() {
             @Override
@@ -65,16 +63,27 @@ public class LoginActivityPresenterTest {
 
     @Test
     public void shouldPassLoginCredentials() {
-        when(preferencesRepository.checkLoginCredentials(preferences, login)).thenReturn(Single.just(Boolean.TRUE));
+        Integer validDbId = 1;
+        when(databaseRepository.checkLoginCredentials(login)).thenReturn(Single.just(validDbId));
 
         presenter.signInClicked(login);
 
-        verify(view).goToNextActivity();
+        verify(view).goToNextActivity(validDbId);
     }
 
     @Test
     public void shouldFailLoginCredentials() {
-        when(preferencesRepository.checkLoginCredentials(preferences, login)).thenReturn(Single.just(Boolean.FALSE));
+        Integer invalidDbId = -1;
+        when(databaseRepository.checkLoginCredentials(login)).thenReturn(Single.just(invalidDbId));
+
+        presenter.signInClicked(login);
+
+        verify(view).displayError(anyString());
+    }
+
+    @Test
+    public void shouldFailLoginCredentialsError() {
+        when(databaseRepository.checkLoginCredentials(login)).thenReturn(Single.<Integer>error(new Throwable("Some Crash")));
 
         presenter.signInClicked(login);
 

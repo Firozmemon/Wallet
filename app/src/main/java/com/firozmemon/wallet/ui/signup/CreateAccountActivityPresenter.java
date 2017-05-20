@@ -1,16 +1,12 @@
 package com.firozmemon.wallet.ui.signup;
 
-import android.content.SharedPreferences;
-
+import com.firozmemon.wallet.database.DatabaseRepository;
 import com.firozmemon.wallet.models.SignUp;
-import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesRepository;
 
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -22,33 +18,31 @@ import io.reactivex.schedulers.Schedulers;
 public class CreateAccountActivityPresenter {
 
     private CreateAccountActivityView view;
-    private SharedPreferencesRepository sharedPreferencesRepository;
-    private SharedPreferences preferences;
+    private DatabaseRepository databaseRepository;
     private Scheduler mainScheduler;
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public CreateAccountActivityPresenter(CreateAccountActivityView view, SharedPreferencesRepository sharedPreferencesRepository, SharedPreferences preferences, Scheduler scheduler) {
+    public CreateAccountActivityPresenter(CreateAccountActivityView view, DatabaseRepository databaseRepository, Scheduler scheduler) {
         this.view = view;
-        this.sharedPreferencesRepository = sharedPreferencesRepository;
-        this.preferences = preferences;
+        this.databaseRepository = databaseRepository;
         mainScheduler = scheduler;
     }
 
     public void performSignUp(final SignUp signUp) {
-        compositeDisposable.add(sharedPreferencesRepository.checkLoginCredentials(preferences, signUp)
+        compositeDisposable.add(databaseRepository.checkLoginCredentials(signUp)
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainScheduler)
-                .map(new Function<Boolean, String>() {
+                .map(new Function<Integer, String>() {
                     @Override
-                    public String apply(@NonNull Boolean aBoolean) throws Exception {
+                    public String apply(@NonNull Integer integerValue) throws Exception {
                         String result = null;
-                        if (!aBoolean) {
-                            result =  sharedPreferencesRepository.createUser(preferences.edit(), signUp)
+                        if (integerValue == -1) {
+                            result = databaseRepository.createUser(signUp)
                                     .to(new Function<Single<Boolean>, String>() {
                                         @Override
                                         public String apply(@NonNull Single<Boolean> booleanSingle) throws Exception {
-                                            if(booleanSingle.blockingGet())
+                                            if (booleanSingle.blockingGet())
                                                 return "1";     // to display success
                                             else
                                                 return "-1";    // to display signup failed

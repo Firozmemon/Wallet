@@ -22,6 +22,10 @@
         <activity
             android:name=".ui.signup.CreateAccountActivity"
             android:label="" />
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

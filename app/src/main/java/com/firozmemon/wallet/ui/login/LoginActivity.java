@@ -1,18 +1,18 @@
 package com.firozmemon.wallet.ui.login;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.firozmemon.wallet.ui.signup.CreateAccountActivity;
 import com.firozmemon.wallet.R;
 import com.firozmemon.wallet.WalletApplication;
+import com.firozmemon.wallet.database.DatabaseRepository;
 import com.firozmemon.wallet.models.Login;
-import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesRepository;
+import com.firozmemon.wallet.ui.main.MainActivity;
+import com.firozmemon.wallet.ui.signup.CreateAccountActivity;
 
 import javax.inject.Inject;
 
@@ -26,15 +26,17 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityVie
     @Inject
     Login login;
     @Inject
-    SharedPreferencesRepository sharedPreferencesRepository;
-    @Inject
-    SharedPreferences sharedPreferences;
+    DatabaseRepository databaseRepository;
 
-    @BindView(R.id.usernameTextInputLayout) TextInputLayout usernameTextInputLayout;
-    @BindView(R.id.passwordTextInputLayout) TextInputLayout passwordTextInputLayout;
+    @BindView(R.id.usernameTextInputLayout)
+    TextInputLayout usernameTextInputLayout;
+    @BindView(R.id.passwordTextInputLayout)
+    TextInputLayout passwordTextInputLayout;
 
-    @BindView(R.id.usernameEditText) EditText usernameEditText;
-    @BindView(R.id.passwordEditText) EditText passwordEditText;
+    @BindView(R.id.usernameEditText)
+    EditText usernameEditText;
+    @BindView(R.id.passwordEditText)
+    EditText passwordEditText;
 
     @OnClick(R.id.signInButton)
     void signInButton() {
@@ -63,8 +65,9 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityVie
     @Override
     protected void onStart() {
         super.onStart();
-        presenter = new LoginActivityPresenter(this, sharedPreferencesRepository,
-                sharedPreferences, AndroidSchedulers.mainThread());
+        ((WalletApplication) getApplication()).setLoggedInUserId(-1);
+
+        presenter = new LoginActivityPresenter(this, databaseRepository, AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -80,8 +83,15 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityVie
     }
 
     @Override
-    public void goToNextActivity() {
-        Toast.makeText(LoginActivity.this, "GOTO Next Activity", Toast.LENGTH_LONG).show();
+    public void goToNextActivity(int userId) {
+
+        ((WalletApplication) getApplication()).setLoggedInUserId(userId);
+        Toast.makeText(LoginActivity.this, "UserId: "+ userId, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -93,8 +103,8 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityVie
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("username",usernameEditText.getText().toString());
-        outState.putString("password",passwordEditText.getText().toString());
+        outState.putString("username", usernameEditText.getText().toString());
+        outState.putString("password", passwordEditText.getText().toString());
     }
 
     @Override

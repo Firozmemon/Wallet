@@ -2,6 +2,7 @@ package com.firozmemon.wallet;
 
 import android.content.SharedPreferences;
 
+import com.firozmemon.wallet.database.DatabaseRepository;
 import com.firozmemon.wallet.models.SignUp;
 import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesRepository;
 import com.firozmemon.wallet.ui.signup.CreateAccountActivityPresenter;
@@ -22,6 +23,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,17 +39,17 @@ public class CreateAccountActivityPresenterTest {
     @Mock
     CreateAccountActivityView view;
     @Mock
-    SharedPreferencesRepository preferencesRepository;
-    @Mock
-    SharedPreferences preferences;
+    DatabaseRepository databaseRepository;
 
     SignUp signUp;
     CreateAccountActivityPresenter presenter;
 
+    int userExists = 1;
+    int userNotExists = -1;
+
     @Before
     public void setUp() {
-        presenter = new CreateAccountActivityPresenter(view, preferencesRepository,
-                preferences, Schedulers.trampoline());
+        presenter = new CreateAccountActivityPresenter(view, databaseRepository, Schedulers.trampoline());
 
         RxJavaPlugins.setIoSchedulerHandler(new Function<Scheduler, Scheduler>() {
             @Override
@@ -64,7 +66,7 @@ public class CreateAccountActivityPresenterTest {
 
     @Test
     public void shouldDisplayUserExists(){
-        when(preferencesRepository.checkLoginCredentials(preferences, signUp)).thenReturn(Single.just(Boolean.TRUE));
+        when(databaseRepository.checkLoginCredentials(signUp)).thenReturn(Single.just(userExists));
 
         presenter.performSignUp(signUp);
 
@@ -73,9 +75,9 @@ public class CreateAccountActivityPresenterTest {
 
     @Test
     public void shouldDisplaySignUpFailed(){
-        when(preferencesRepository.checkLoginCredentials(preferences, signUp)).thenReturn(Single.just(Boolean.FALSE));
+        when(databaseRepository.checkLoginCredentials(signUp)).thenReturn(Single.just(userNotExists));
 
-        when(preferencesRepository.createUser(preferences.edit(), signUp)).thenReturn(Single.just(Boolean.FALSE));
+        when(databaseRepository.createUser(signUp)).thenReturn(Single.just(Boolean.FALSE));
 
         presenter.performSignUp(signUp);
 
@@ -84,12 +86,32 @@ public class CreateAccountActivityPresenterTest {
 
     @Test
     public void shouldDisplaySignUpSuccessful(){
-        when(preferencesRepository.checkLoginCredentials(preferences, signUp)).thenReturn(Single.just(Boolean.FALSE));
+        when(databaseRepository.checkLoginCredentials(signUp)).thenReturn(Single.just(userNotExists));
 
-        when(preferencesRepository.createUser(preferences.edit(), signUp)).thenReturn(Single.just(true));
+        when(databaseRepository.createUser(signUp)).thenReturn(Single.just(Boolean.TRUE));
 
         presenter.performSignUp(signUp);
 
         verify(view).displaySuccessAndGoToLoginActivity("SignUp Successful. Please Login!");
+    }
+
+    @Test
+    public void shouldHandleErrorAtLoginCred(){
+        when(databaseRepository.checkLoginCredentials(signUp)).thenReturn(Single.<Integer>error(new Throwable("Login Crashed!")));
+
+        presenter.performSignUp(signUp);
+
+        verify(view).displayError(anyString());
+    }
+
+    @Test
+    public void shouldHandleErrorAtCreateUser(){
+        when(databaseRepository.checkLoginCredentials(signUp)).thenReturn(Single.just(userNotExists));
+
+        when(databaseRepository.createUser(signUp)).thenReturn(Single.<Boolean>error(new Throwable("Error in Create User")));
+
+        presenter.performSignUp(signUp);
+
+        verify(view).displayError(anyString());
     }
 }

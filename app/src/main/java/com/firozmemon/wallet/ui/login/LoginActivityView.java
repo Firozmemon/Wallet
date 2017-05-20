@@ -8,7 +8,7 @@ public interface LoginActivityView {
 
     void goToCreateAccountActivity();
 
-    void goToNextActivity();
+    void goToNextActivity(int userId);
 
     void displayError(String text);
 }

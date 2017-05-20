@@ -6,6 +6,8 @@ import android.content.res.Resources;
 
 import com.firozmemon.wallet.Constants;
 import com.firozmemon.wallet.WalletApplication;
+import com.firozmemon.wallet.database.DatabaseRepository;
+import com.firozmemon.wallet.database.MyWalletDatabaseHelper;
 import com.firozmemon.wallet.models.Login;
 import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesModel;
 import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesRepository;
@@ -49,5 +51,11 @@ public class AppModule {
     @Singleton
     SharedPreferences.Editor provideSharedPreferenceEditor(SharedPreferences preferences) {
         return preferences.edit();
+    }
+
+    @Provides
+    @Singleton
+    DatabaseRepository providesDatabaseRepository(Context context) {
+        return MyWalletDatabaseHelper.getInstance(context);
     }
 }

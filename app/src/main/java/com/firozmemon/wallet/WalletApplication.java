@@ -34,4 +34,14 @@ public class WalletApplication extends Application {
 
         appComponent.inject(this);
     }
+
+    public int loggedInUserId = -1;
+
+    public int getLoggedInUserId() {
+        return loggedInUserId;
+    }
+
+    public void setLoggedInUserId(int loggedInUserId) {
+        this.loggedInUserId = loggedInUserId;
+    }
 }

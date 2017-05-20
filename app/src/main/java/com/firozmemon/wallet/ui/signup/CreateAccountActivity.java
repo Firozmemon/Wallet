@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.firozmemon.wallet.R;
 import com.firozmemon.wallet.WalletApplication;
+import com.firozmemon.wallet.database.DatabaseRepository;
 import com.firozmemon.wallet.models.SignUp;
 import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesRepository;
 import com.firozmemon.wallet.ui.login.LoginActivity;
@@ -31,9 +32,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class CreateAccountActivity extends AppCompatActivity implements CreateAccountActivityView {
 
     @Inject
-    SharedPreferencesRepository sharedPreferencesRepository;
-    @Inject
-    SharedPreferences sharedPreferences;
+    DatabaseRepository databaseRepository;
     @Inject
     SignUp signUp;
 
@@ -78,7 +77,7 @@ public class CreateAccountActivity extends AppCompatActivity implements CreateAc
     @Override
     protected void onStart() {
         super.onStart();
-        presenter = new CreateAccountActivityPresenter(this, sharedPreferencesRepository, sharedPreferences, AndroidSchedulers.mainThread());
+        presenter = new CreateAccountActivityPresenter(this, databaseRepository, AndroidSchedulers.mainThread());
     }
 
     @Override
