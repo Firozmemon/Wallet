@@ -176,12 +176,12 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
                         db = MyWalletDatabaseHelper.this.getReadableDatabase();
 
                         cursor = db.rawQuery("SELECT * FROM " + TABLE_USER_CREDENTIALS +
-                                " WHERE " + USER_CREDENTIALS_COLUMN_USER_ID + " = '" + userId + "'",
+                                        " WHERE " + USER_CREDENTIALS_COLUMN_USER_ID + " = '" + userId + "'",
                                 null);
 
                         if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                             List<User_Credentials> list = new ArrayList<User_Credentials>();
-                            do{
+                            do {
                                 User_Credentials credentials = new User_Credentials();
                                 credentials.setId(cursor.getString(cursor.getColumnIndex(USER_CREDENTIALS_COLUMN_ID)));
                                 credentials.setUser_id(cursor.getString(cursor.getColumnIndex(USER_CREDENTIALS_COLUMN_USER_ID)));
@@ -211,6 +211,54 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
                     }
                 }
                 return Collections.EMPTY_LIST;
+            }
+        });
+    }
+
+    @Override
+    public Single<Boolean> createCredentials(final int userId, final User_Credentials credentials) {
+        return Single.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                String site_name = credentials.getSite_name();
+                String user_name = credentials.getUser_name();
+                String email = credentials.getEmail();
+                String password = credentials.getPassword();
+                String description = credentials.getDescription();
+
+                // Validate credentials
+                if (userId > 0
+                    &&
+                    site_name != null && !site_name.equalsIgnoreCase("")
+                    &&
+                    password != null && !password.equalsIgnoreCase("")) {
+
+                    SQLiteDatabase db = null;
+                    try {
+                        ContentValues values = new ContentValues();
+                        values.put(USER_CREDENTIALS_COLUMN_USER_ID, userId);
+                        values.put(USER_CREDENTIALS_COLUMN_SITE_NAME, site_name);
+                        values.put(USER_CREDENTIALS_COLUMN_USERNAME, user_name);
+                        values.put(USER_CREDENTIALS_COLUMN_EMAIL, email);
+                        values.put(USER_CREDENTIALS_COLUMN_PASSWORD, password);
+                        values.put(USER_CREDENTIALS_COLUMN_DESCRIPTION, description);
+
+                        db = MyWalletDatabaseHelper.this.getWritableDatabase();
+                        if (db.insert(TABLE_USER_CREDENTIALS, null, values) > 0)
+                            return Boolean.TRUE;
+                        else
+                            return Boolean.FALSE;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return Boolean.FALSE;
+                    } finally {
+                        if (db != null) {
+                            db.close();
+                        }
+                    }
+
+                } else
+                    return Boolean.FALSE;
             }
         });
     }

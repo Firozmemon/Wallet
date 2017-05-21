@@ -95,4 +95,11 @@ public class MainActivityPresenterTest {
 
         verify(view).displayError(anyString());
     }
+
+    @Test
+    public void shouldGoToCreateCredentialActivity(){
+        presenter.addNewData();
+
+        verify(view).goToCreateCredentialActivity();
+    }
 }

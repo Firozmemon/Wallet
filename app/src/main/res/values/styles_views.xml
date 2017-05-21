@@ -23,6 +23,14 @@
         <item name="android:inputType">textPassword</item>
     </style>
 
+    <style name="MyEditText.Credential.Description">
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:minLines">2</item>
+        <item name="android:maxLines">4</item>
+        <item name="android:gravity">top|start</item>
+        <item name="android:scrollbars">none</item>
+    </style>
+
     <!--*********** Text Views ***********-->
     <style name="MyTextView">
         <item name="android:fontFamily">sans-serif-light</item>
@@ -33,6 +41,12 @@
 
     <style name="MyTextView.Header">
         <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="MyTextView.Header.NoData">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <!--*********** Text Input Layouts ***********-->

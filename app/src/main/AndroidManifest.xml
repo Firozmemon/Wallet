@@ -26,6 +26,10 @@
             android:name=".ui.main.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.create.CreateCredentialsActivity"
+            android:label="@string/title_activity_create_credentials"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

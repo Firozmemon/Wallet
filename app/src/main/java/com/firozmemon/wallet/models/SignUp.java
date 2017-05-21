@@ -25,4 +25,11 @@ public class SignUp extends Login {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "SignUp{" +
+                "email='" + email + '\'' +
+                "super='" + super.toString() + '\'' +
+                '}';
+    }
 }

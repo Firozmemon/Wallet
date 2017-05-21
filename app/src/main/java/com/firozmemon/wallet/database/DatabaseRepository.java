@@ -19,4 +19,6 @@ public interface DatabaseRepository {
     Single<Boolean> createUser(SignUp signUpData);
 
     Single<List<User_Credentials>> getCredentials(int userId);
+
+    Single<Boolean> createCredentials(int userId, User_Credentials credentials);
 }

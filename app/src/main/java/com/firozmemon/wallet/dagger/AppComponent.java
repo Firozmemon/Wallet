@@ -1,7 +1,9 @@
 package com.firozmemon.wallet.dagger;
 
 import com.firozmemon.wallet.WalletApplication;
+import com.firozmemon.wallet.ui.create.CreateCredentialsActivity;
 import com.firozmemon.wallet.ui.login.LoginActivity;
+import com.firozmemon.wallet.ui.main.MainActivity;
 import com.firozmemon.wallet.ui.signup.CreateAccountActivity;
 
 import javax.inject.Singleton;
@@ -20,5 +22,9 @@ public interface AppComponent {
     void inject(LoginActivity loginActivity);
 
     void inject(CreateAccountActivity createAccountActivity);
+
+    void inject(MainActivity mainActivity);
+
+    void inject(CreateCredentialsActivity createCredentialsActivity);
 
 }

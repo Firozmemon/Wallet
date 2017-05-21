@@ -1,13 +1,9 @@
 package com.firozmemon.wallet.dagger;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-
-import com.firozmemon.wallet.Constants;
 import com.firozmemon.wallet.WalletApplication;
 import com.firozmemon.wallet.models.Login;
 import com.firozmemon.wallet.models.SignUp;
+import com.firozmemon.wallet.models.User_Credentials;
 import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesModel;
 import com.firozmemon.wallet.models.sharedpreferences.SharedPreferencesRepository;
 
@@ -43,6 +39,12 @@ public class ModelsModule {
     @Provides
     SignUp providesSignUpModel() {
         return new SignUp();
+    }
+
+    @Provides
+    @Singleton
+    User_Credentials providesUserCredentialsModel() {
+        return new User_Credentials();
     }
 
 }

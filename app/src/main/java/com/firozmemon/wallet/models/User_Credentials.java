@@ -63,4 +63,17 @@ public class User_Credentials {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "User_Credentials{" +
+                "id='" + id + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", site_name='" + site_name + '\'' +
+                ", email='" + email + '\'' +
+                ", user_name='" + user_name + '\'' +
+                ", password='" + password + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
