@@ -46,6 +46,7 @@ public class MainActivityPresenterTest {
     DatabaseRepository databaseRepository;
 
     SignUp signUp;
+    User_Credentials credentials;
     MainActivityPresenter presenter;
 
     int userId = 1;
@@ -101,5 +102,12 @@ public class MainActivityPresenterTest {
         presenter.addNewData();
 
         verify(view).goToCreateCredentialActivity();
+    }
+
+    @Test
+    public void shouldGoToCredentialDetailsActivity(){
+        presenter.adapterItemClicked(credentials);
+
+        verify(view).goToCredentialDetailsActivity(credentials);
     }
 }

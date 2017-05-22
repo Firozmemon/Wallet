@@ -21,4 +21,6 @@ public interface DatabaseRepository {
     Single<List<User_Credentials>> getCredentials(int userId);
 
     Single<Boolean> createCredentials(int userId, User_Credentials credentials);
+
+    Single<User_Credentials> updateCredentials(User_Credentials credentials);
 }

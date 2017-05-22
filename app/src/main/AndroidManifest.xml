@@ -29,6 +29,10 @@
         <activity
             android:name=".ui.create.CreateCredentialsActivity"
             android:label="@string/title_activity_create_credentials"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.details.CredentialDetailsActivity"
+            android:label="@string/title_activity_credential_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -55,7 +55,6 @@ public class CreateCredentialsActivity extends AppCompatActivity implements Crea
     EditText passwordEditText;
     @BindView(R.id.descriptionEditText)
     EditText descriptionEditText;
-
     @OnClick(R.id.fab)
     public void fabClicked() {
         Snackbar.make(coordinatorLayout, "Create new setup", Snackbar.LENGTH_LONG)

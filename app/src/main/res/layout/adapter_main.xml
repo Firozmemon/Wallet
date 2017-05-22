@@ -3,27 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray"
-    android:orientation="vertical"
     android:layout_margin="1dp"
+    android:background="@android:color/white"
+    android:orientation="vertical"
     android:padding="10dp"
     tools:context="com.firozmemon.wallet.ui.main.MainActivity">
 
     <TextView
         android:id="@+id/siteName"
+        style="@style/MyTextView.Header.Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/text_margin"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="32sp"
         tools:text="SITE_NAME" />
 
     <TextView
         android:id="@+id/username"
+        style="@style/MyTextView.Black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         tools:text="USER NAME" />
 

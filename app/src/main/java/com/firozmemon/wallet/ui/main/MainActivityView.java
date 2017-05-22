@@ -17,4 +17,6 @@ public interface MainActivityView {
     void displayCredentials(List<User_Credentials> list);
 
     void goToCreateCredentialActivity();
+
+    void goToCredentialDetailsActivity(User_Credentials credentials);
 }

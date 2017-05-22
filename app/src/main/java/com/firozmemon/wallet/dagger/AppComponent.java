@@ -2,6 +2,7 @@ package com.firozmemon.wallet.dagger;
 
 import com.firozmemon.wallet.WalletApplication;
 import com.firozmemon.wallet.ui.create.CreateCredentialsActivity;
+import com.firozmemon.wallet.ui.details.CredentialDetailsActivity;
 import com.firozmemon.wallet.ui.login.LoginActivity;
 import com.firozmemon.wallet.ui.main.MainActivity;
 import com.firozmemon.wallet.ui.signup.CreateAccountActivity;
@@ -26,5 +27,7 @@ public interface AppComponent {
     void inject(MainActivity mainActivity);
 
     void inject(CreateCredentialsActivity createCredentialsActivity);
+
+    void inject(CredentialDetailsActivity credentialDetailsActivity);
 
 }

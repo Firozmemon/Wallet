@@ -26,7 +26,6 @@
     <style name="MyEditText.Credential.Description">
         <item name="android:inputType">textMultiLine</item>
         <item name="android:minLines">2</item>
-        <item name="android:maxLines">4</item>
         <item name="android:gravity">top|start</item>
         <item name="android:scrollbars">none</item>
     </style>
@@ -39,8 +38,18 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
 
+    <style name="MyTextView.Black">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
     <style name="MyTextView.Header">
         <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="MyTextView.Header.Black">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="MyTextView.Header.NoData">

@@ -52,6 +52,10 @@ public class MainActivityPresenter {
         view.goToCreateCredentialActivity();
     }
 
+    public void adapterItemClicked(User_Credentials credentials) {
+        view.goToCredentialDetailsActivity(credentials);
+    }
+
     public void unsubscribe() {
         compositeDisposable.clear();
     }

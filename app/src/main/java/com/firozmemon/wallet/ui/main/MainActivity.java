@@ -17,6 +17,7 @@ import com.firozmemon.wallet.WalletApplication;
 import com.firozmemon.wallet.database.DatabaseRepository;
 import com.firozmemon.wallet.models.User_Credentials;
 import com.firozmemon.wallet.ui.create.CreateCredentialsActivity;
+import com.firozmemon.wallet.ui.details.CredentialDetailsActivity;
 
 import java.util.List;
 
@@ -113,12 +114,21 @@ public class MainActivity extends AppCompatActivity implements MainActivityView,
                             "\nPosition: " + position +
                             "\nItem: " + adapter.getItem(position).toString(),
                     Snackbar.LENGTH_LONG).show();
+
+            presenter.adapterItemClicked(adapter.getItem(position));
         }
     }
 
     @Override
     public void goToCreateCredentialActivity() {
         Intent intent = new Intent(MainActivity.this, CreateCredentialsActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void goToCredentialDetailsActivity(User_Credentials credentials) {
+        Intent intent = new Intent(MainActivity.this, CredentialDetailsActivity.class);
+        intent.putExtra("DETAILS", credentials);
         startActivity(intent);
     }
 }

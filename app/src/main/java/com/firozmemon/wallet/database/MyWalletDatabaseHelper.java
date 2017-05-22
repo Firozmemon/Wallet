@@ -106,9 +106,6 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
                         } else {
                             return -1;
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return -1;
                     } finally {
                         if (cursor != null) {
                             cursor.close();
@@ -149,9 +146,6 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
                                 return Boolean.TRUE;
                             else
                                 return Boolean.FALSE;
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                            return Boolean.FALSE;
                         } finally {
                             if (db != null) {
                                 db.close();
@@ -198,9 +192,6 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
                         } else {
                             return Collections.EMPTY_LIST;
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return Collections.EMPTY_LIST;
                     } finally {
                         if (cursor != null) {
                             cursor.close();
@@ -228,10 +219,10 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
 
                 // Validate credentials
                 if (userId > 0
-                    &&
-                    site_name != null && !site_name.equalsIgnoreCase("")
-                    &&
-                    password != null && !password.equalsIgnoreCase("")) {
+                        &&
+                        site_name != null && !site_name.equalsIgnoreCase("")
+                        &&
+                        password != null && !password.equalsIgnoreCase("")) {
 
                     SQLiteDatabase db = null;
                     try {
@@ -248,9 +239,6 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
                             return Boolean.TRUE;
                         else
                             return Boolean.FALSE;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return Boolean.FALSE;
                     } finally {
                         if (db != null) {
                             db.close();
@@ -259,6 +247,53 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
 
                 } else
                     return Boolean.FALSE;
+            }
+        });
+    }
+
+    @Override
+    public Single<User_Credentials> updateCredentials(final User_Credentials credentials) {
+        return Single.fromCallable(new Callable<User_Credentials>() {
+            @Override
+            public User_Credentials call() throws Exception {
+                int id = Integer.parseInt(credentials.getId());
+                int userId = Integer.parseInt(credentials.getUser_id());
+                String site_name = credentials.getSite_name();
+                String user_name = credentials.getUser_name();
+                String email = credentials.getEmail();
+                String password = credentials.getPassword();
+                String description = credentials.getDescription();
+
+                if (id > 0 && userId > 0
+                        &&
+                        site_name != null && !site_name.equalsIgnoreCase("")
+                        &&
+                        password != null && !password.equalsIgnoreCase("")) {
+                    SQLiteDatabase db = null;
+                    try {
+                        ContentValues values = new ContentValues();
+                        values.put(USER_CREDENTIALS_COLUMN_ID, id);
+                        values.put(USER_CREDENTIALS_COLUMN_USER_ID, userId);
+                        values.put(USER_CREDENTIALS_COLUMN_SITE_NAME, site_name);
+                        values.put(USER_CREDENTIALS_COLUMN_USERNAME, user_name);
+                        values.put(USER_CREDENTIALS_COLUMN_EMAIL, email);
+                        values.put(USER_CREDENTIALS_COLUMN_PASSWORD, password);
+                        values.put(USER_CREDENTIALS_COLUMN_DESCRIPTION, description);
+
+                        db = MyWalletDatabaseHelper.this.getWritableDatabase();
+
+                        if (db.update(TABLE_USER_CREDENTIALS, values,
+                                USER_CREDENTIALS_COLUMN_ID + "=?", new String[]{String.valueOf(id)}) > 0)
+                            return credentials;
+                        else
+                            return new User_Credentials();
+                    } finally {
+                        if (db != null) {
+                            db.close();
+                        }
+                    }
+                } else
+                    return new User_Credentials();
             }
         });
     }
