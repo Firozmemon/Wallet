@@ -23,4 +23,6 @@ public interface DatabaseRepository {
     Single<Boolean> createCredentials(int userId, User_Credentials credentials);
 
     Single<User_Credentials> updateCredentials(User_Credentials credentials);
+
+    Single<Boolean> deleteCredentials(User_Credentials credentials);
 }

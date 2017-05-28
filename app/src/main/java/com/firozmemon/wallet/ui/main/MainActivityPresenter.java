@@ -56,6 +56,27 @@ public class MainActivityPresenter {
         view.goToCredentialDetailsActivity(credentials);
     }
 
+    public void performDelete(User_Credentials credentials) {
+        compositeDisposable.add(databaseRepository.deleteCredentials(credentials)
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainScheduler)
+                .subscribeWith(new DisposableSingleObserver<Boolean>() {
+                    @Override
+                    public void onSuccess(@NonNull Boolean aBoolean) {
+                        if (aBoolean) {
+                            view.displayDeleteSuccess();
+                        } else {
+                            view.displayError("Could not delete credential");
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        view.displayError(e.getMessage());
+                    }
+                }));
+    }
+
     public void unsubscribe() {
         compositeDisposable.clear();
     }

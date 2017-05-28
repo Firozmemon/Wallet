@@ -53,9 +53,10 @@ public class CreateCredentialsActivity extends AppCompatActivity implements Crea
     EditText passwordEditText;
     @BindView(R.id.descriptionEditText)
     EditText descriptionEditText;
+
     @OnClick(R.id.fab)
     public void fabClicked() {
-        int userId = ((WalletApplication)getApplication()).getLoggedInUserId();
+        int userId = ((WalletApplication) getApplication()).getLoggedInUserId();
 
         credentials.setUser_id(String.valueOf(userId));
         credentials.setSite_name(siteNameEditText.getText().toString());
@@ -74,7 +75,7 @@ public class CreateCredentialsActivity extends AppCompatActivity implements Crea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_credentials);
 
-        ((WalletApplication)getApplication()).getAppComponent().inject(this);
+        ((WalletApplication) getApplication()).getAppComponent().inject(this);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,7 +96,7 @@ public class CreateCredentialsActivity extends AppCompatActivity implements Crea
 
     @Override
     public void displaySuccess() {
-        Snackbar.make(coordinatorLayout, "Successfully Created", Snackbar.LENGTH_LONG)
+        Snackbar.make(coordinatorLayout, R.string.credentialCreatedSuccess, Snackbar.LENGTH_LONG)
                 .show();
         onBackPressed();
     }

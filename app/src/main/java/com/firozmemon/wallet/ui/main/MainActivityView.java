@@ -19,4 +19,6 @@ public interface MainActivityView {
     void goToCreateCredentialActivity();
 
     void goToCredentialDetailsActivity(User_Credentials credentials);
+
+    void displayDeleteSuccess();
 }

@@ -2,7 +2,9 @@ package com.firozmemon.wallet.ui.main;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -90,6 +92,37 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
                     }
                 }
             });
+
+            itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                @Override
+                public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+                    contextMenu.setHeaderTitle("Select Action");
+                    contextMenu.add("View")
+                            .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem menuItem) {
+                                    // If activity is subscribed to adapter Click,
+                                    // notify activity about it
+                                    if (itemClickListener != null) {
+                                        itemClickListener.onAdapterItemClick(itemView, getAdapterPosition());
+                                    }
+                                    return true;
+                                }
+                            });
+                    contextMenu.add("Delete")
+                            .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem menuItem) {
+                                    // If activity is subscribed to adapter Click,
+                                    // notify activity about it
+                                    if (itemClickListener != null) {
+                                        itemClickListener.onAdapterItemClickForDelete(itemView, getAdapterPosition());
+                                    }
+                                    return true;
+                                }
+                            });
+                }
+            });
         }
     }
 
@@ -101,6 +134,8 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     public interface AdapterItemClickListener {
         void onAdapterItemClick(View view, int position);
+
+        void onAdapterItemClickForDelete(View view, int position);
     }
 
     public void setFilter(List<User_Credentials> filterList) {

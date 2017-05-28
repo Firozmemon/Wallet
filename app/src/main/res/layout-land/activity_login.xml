@@ -88,7 +88,7 @@
             android:drawableLeft="@drawable/ic_user"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_user"
-            android:hint="Username" />
+            android:hint="@string/username" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -114,7 +114,7 @@
             android:drawableLeft="@drawable/ic_lock"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_lock"
-            android:hint="Password" />
+            android:hint="@string/password" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -123,7 +123,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Sign in"
+        android:text="@string/signIn"
         app:layout_constraintBottom_toTopOf="@+id/createAccountTextView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -135,7 +135,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Create Account"
+        android:text="@string/createAccount"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

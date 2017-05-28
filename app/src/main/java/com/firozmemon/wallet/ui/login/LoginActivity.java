@@ -86,7 +86,6 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityVie
     public void goToNextActivity(int userId) {
 
         ((WalletApplication) getApplication()).setLoggedInUserId(userId);
-        Toast.makeText(LoginActivity.this, "UserId: "+ userId, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

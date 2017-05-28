@@ -110,4 +110,31 @@ public class MainActivityPresenterTest {
 
         verify(view).goToCredentialDetailsActivity(credentials);
     }
+
+    @Test
+    public void shouldDeleteSuccessfully(){
+        when(databaseRepository.deleteCredentials(credentials)).thenReturn(Single.just(Boolean.TRUE));
+
+        presenter.performDelete(credentials);
+
+        verify(view).displayDeleteSuccess();
+    }
+
+    @Test
+    public void shouldFailDelete(){
+        when(databaseRepository.deleteCredentials(credentials)).thenReturn(Single.just(Boolean.FALSE));
+
+        presenter.performDelete(credentials);
+
+        verify(view).displayError(anyString());
+    }
+
+    @Test
+    public void shouldHandleCrashForDelete(){
+        when(databaseRepository.deleteCredentials(credentials)).thenReturn(Single.<Boolean>error(new Throwable("Something weird happened")));
+
+        presenter.performDelete(credentials);
+
+        verify(view).displayError(anyString());
+    }
 }

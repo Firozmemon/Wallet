@@ -80,7 +80,7 @@ public class CredentialDetailsActivity extends AppCompatActivity implements Cred
 
             if (user_credentials.equals(tempUser_credentials)) {
                 exitEditMode();
-                Snackbar.make(coordinatorLayout, "Nothing changed", Snackbar.LENGTH_LONG)
+                Snackbar.make(coordinatorLayout, R.string.nothingChanged, Snackbar.LENGTH_LONG)
                         .show();
             } else {
                 presenter.editClicked(isInEditMode, tempUser_credentials);
@@ -209,7 +209,7 @@ public class CredentialDetailsActivity extends AppCompatActivity implements Cred
 
     @Override
     public void displaySuccess(User_Credentials credentials) {
-        Snackbar.make(coordinatorLayout, "Data Updated", Snackbar.LENGTH_LONG)
+        Snackbar.make(coordinatorLayout, R.string.dataUpdated, Snackbar.LENGTH_LONG)
                 .show();
         user_credentials = credentials;
         exitEditMode();

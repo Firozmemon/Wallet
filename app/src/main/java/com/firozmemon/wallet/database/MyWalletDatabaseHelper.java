@@ -297,4 +297,32 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
             }
         });
     }
+
+    @Override
+    public Single<Boolean> deleteCredentials(final User_Credentials credentials) {
+        return Single.fromCallable(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                int id = Integer.parseInt(credentials.getId());
+                int userId = Integer.parseInt(credentials.getUser_id());
+
+                if (id > 0 && userId > 0) {
+                    SQLiteDatabase db = null;
+                    try {
+                        db = MyWalletDatabaseHelper.this.getWritableDatabase();
+
+                        if (db.delete(TABLE_USER_CREDENTIALS, USER_CREDENTIALS_COLUMN_ID + "=?", new String[]{String.valueOf(id)}) > 0) {
+                            return Boolean.TRUE;
+                        } else
+                            return Boolean.FALSE;
+                    } finally {
+                        if (db != null) {
+                            db.close();
+                        }
+                    }
+                } else
+                    return Boolean.FALSE;
+            }
+        });
+    }
 }

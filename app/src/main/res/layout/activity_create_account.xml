@@ -82,7 +82,7 @@
             android:drawableLeft="@drawable/ic_user"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_user"
-            android:hint="Name" />
+            android:hint="@string/username" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -108,7 +108,7 @@
             android:drawableLeft="@drawable/ic_mail"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_mail"
-            android:hint="Email" />
+            android:hint="@string/email" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -134,7 +134,7 @@
             android:drawableLeft="@drawable/ic_lock"
             android:drawablePadding="10dp"
             android:drawableStart="@drawable/ic_lock"
-            android:hint="Password" />
+            android:hint="@string/password" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -143,7 +143,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:text="Join"
+        android:text="@string/join"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
