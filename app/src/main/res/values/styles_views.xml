@@ -53,7 +53,6 @@
     </style>
 
     <style name="MyTextView.Header.NoData">
-        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:layout_centerInParent">true</item>
         <item name="android:visibility">gone</item>
     </style>

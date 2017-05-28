@@ -5,4 +5,6 @@
     <string name="noDataFound">No Data Found</string>
     <string name="title_activity_create_credentials">Add Credential</string>
     <string name="title_activity_credential_details">CredentialDetailsActivity</string>
+    <string name="search">Search</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

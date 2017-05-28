@@ -8,9 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.firozmemon.wallet.R;
 import com.firozmemon.wallet.WalletApplication;
@@ -57,14 +55,6 @@ public class CreateCredentialsActivity extends AppCompatActivity implements Crea
     EditText descriptionEditText;
     @OnClick(R.id.fab)
     public void fabClicked() {
-        Snackbar.make(coordinatorLayout, "Create new setup", Snackbar.LENGTH_LONG)
-                .setAction("Action", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(CreateCredentialsActivity.this, "Action Clicked", Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
-
         int userId = ((WalletApplication)getApplication()).getLoggedInUserId();
 
         credentials.setUser_id(String.valueOf(userId));

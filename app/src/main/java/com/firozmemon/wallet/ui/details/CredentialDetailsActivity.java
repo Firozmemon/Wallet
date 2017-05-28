@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.firozmemon.wallet.R;
 import com.firozmemon.wallet.WalletApplication;
@@ -68,14 +67,6 @@ public class CredentialDetailsActivity extends AppCompatActivity implements Cred
 
     @OnClick(R.id.fab)
     public void fabEditClicked() {
-        Snackbar.make(coordinatorLayout, "Create new setup", Snackbar.LENGTH_LONG)
-                .setAction("Action", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(CredentialDetailsActivity.this, "Action Clicked", Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
-
         User_Credentials tempUser_credentials = new User_Credentials();
         tempUser_credentials.setId(user_credentials.getId());
         tempUser_credentials.setUser_id(user_credentials.getUser_id());
@@ -117,7 +108,7 @@ public class CredentialDetailsActivity extends AppCompatActivity implements Cred
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credential_details);
 
-        ((WalletApplication)getApplication()).getAppComponent().inject(this);
+        ((WalletApplication) getApplication()).getAppComponent().inject(this);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

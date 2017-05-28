@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.firozmemon.wallet.R;
 import com.firozmemon.wallet.models.User_Credentials;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,8 +23,8 @@ import butterknife.ButterKnife;
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.MyHolder> {
 
     private final Context context;
-    private final List<User_Credentials> list;
     private final LayoutInflater inflater;
+    private List<User_Credentials> list;
     AdapterItemClickListener itemClickListener;
 
     public MainActivityAdapter(Context context, List<User_Credentials> list) {
@@ -101,4 +102,11 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
     public interface AdapterItemClickListener {
         void onAdapterItemClick(View view, int position);
     }
+
+    public void setFilter(List<User_Credentials> filterList) {
+        list = new ArrayList<>();
+        list.addAll(filterList);
+        notifyDataSetChanged();
+    }
+
 }

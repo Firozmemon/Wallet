@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firozmemon.wallet.R;
 import com.firozmemon.wallet.WalletApplication;
@@ -19,6 +24,7 @@ import com.firozmemon.wallet.models.User_Credentials;
 import com.firozmemon.wallet.ui.create.CreateCredentialsActivity;
 import com.firozmemon.wallet.ui.details.CredentialDetailsActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class MainActivity extends AppCompatActivity implements MainActivityView, MainActivityAdapter.AdapterItemClickListener {
+public class MainActivity extends AppCompatActivity implements MainActivityView, MainActivityAdapter.AdapterItemClickListener, SearchView.OnQueryTextListener {
 
     @Inject
     DatabaseRepository databaseRepository;
@@ -41,21 +47,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityView,
     RecyclerView recyclerView;
     @BindView(R.id.noDataFound)
     TextView noDataFound;
+    private List<User_Credentials> list;
 
     @OnClick(R.id.fab)
     public void fabClicked() {
-        Snackbar.make(coordinatorLayout, "Create new setup", Snackbar.LENGTH_LONG)
-                .setAction("Action", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(MainActivity.this, "Action Clicked", Toast.LENGTH_SHORT).show();
-                    }
-                }).show();
         presenter.addNewData();
     }
 
     MainActivityPresenter presenter;
     MainActivityAdapter adapter;
+
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +73,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityView,
     @Override
     protected void onStart() {
         super.onStart();
-        presenter = new MainActivityPresenter(this, databaseRepository, AndroidSchedulers.mainThread());
-        presenter.loadData(((WalletApplication) getApplication()).getLoggedInUserId());
+
+        if (searchView != null && !searchView.isIconified()) {
+            searchView.setIconified(true);
+        }
+
+        int userId = ((WalletApplication) getApplication()).getLoggedInUserId();
+        if (userId > 0) {
+            presenter = new MainActivityPresenter(this, databaseRepository, AndroidSchedulers.mainThread());
+            presenter.loadData(userId);
+        } else {
+            onBackPressed();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+        } else
+            super.onBackPressed();
     }
 
     @Override
@@ -95,7 +115,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityView,
 
     @Override
     public void displayCredentials(List<User_Credentials> list) {
-        Snackbar.make(coordinatorLayout, "Found: " + list.size(), Snackbar.LENGTH_LONG).show();
+        this.list = list; // setting to global variable for filters (SearchView)
+
+        // Snackbar.make(coordinatorLayout, "Found: " + list.size(), Snackbar.LENGTH_LONG).show();
         noDataFound.setVisibility(View.GONE);
 
         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
@@ -109,12 +131,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView,
     @Override
     public void onAdapterItemClick(View view, int position) {
         if (position >= 0) {
-            Snackbar.make(coordinatorLayout,
-                    "Adapter Item Clicked:" +
-                            "\nPosition: " + position +
-                            "\nItem: " + adapter.getItem(position).toString(),
-                    Snackbar.LENGTH_LONG).show();
-
             presenter.adapterItemClicked(adapter.getItem(position));
         }
     }
@@ -130,5 +146,72 @@ public class MainActivity extends AppCompatActivity implements MainActivityView,
         Intent intent = new Intent(MainActivity.this, CredentialDetailsActivity.class);
         intent.putExtra("DETAILS", credentials);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(item,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        // SearchView collapsed
+                        if (adapter != null)
+                            adapter.setFilter(list);
+
+                        // Hide keyboard
+                        InputMethodManager imm = (InputMethodManager) getSystemService(
+                                MainActivity.this.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        // SearchView expanded
+                        return true; // Return true to expand action view
+                    }
+                });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if (adapter != null) {
+            List<User_Credentials> filteredUserCredentials = filter(list, query);
+
+            adapter.setFilter(filteredUserCredentials);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (adapter != null) {
+            List<User_Credentials> filteredUserCredentials = filter(list, newText);
+
+            adapter.setFilter(filteredUserCredentials);
+        }
+        return true;
+    }
+
+    private List<User_Credentials> filter(List<User_Credentials> userCredentialsList, String queryText) {
+        List<User_Credentials> cred = new ArrayList<>();
+        queryText = queryText.toLowerCase();
+        for (User_Credentials user_credentials : userCredentialsList) {
+            String site_name = user_credentials.getSite_name().toLowerCase();
+            if (site_name.contains(queryText)) {
+                cred.add(user_credentials);
+            }
+        }
+        return cred;
     }
 }

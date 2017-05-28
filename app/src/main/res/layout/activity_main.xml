@@ -19,6 +19,7 @@
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/bg_signup"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorButtonNormal"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
