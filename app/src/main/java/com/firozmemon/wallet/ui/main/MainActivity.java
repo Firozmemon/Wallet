@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView,
     public void displayNoCredentialsFound() {
         Snackbar.make(coordinatorLayout, getResources().getString(R.string.noDataFound), Snackbar.LENGTH_LONG).show();
         noDataFound.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 
     @Override
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView,
         this.list = list; // setting to global variable for filters (SearchView)
 
         noDataFound.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
 
         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
 
