@@ -170,8 +170,10 @@ public class MyWalletDatabaseHelper extends SQLiteOpenHelper implements Database
                         db = MyWalletDatabaseHelper.this.getReadableDatabase();
 
                         cursor = db.rawQuery("SELECT * FROM " + TABLE_USER_CREDENTIALS +
-                                        " WHERE " + USER_CREDENTIALS_COLUMN_USER_ID + " = '" + userId + "'",
-                                null);
+                                        " WHERE " + USER_CREDENTIALS_COLUMN_USER_ID + " = '" + userId + "'" +
+                                        " ORDER BY " + USER_CREDENTIALS_COLUMN_SITE_NAME + "," +
+                                        USER_CREDENTIALS_COLUMN_USERNAME + "," + USER_CREDENTIALS_COLUMN_EMAIL
+                                , null);
 
                         if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                             List<User_Credentials> list = new ArrayList<User_Credentials>();

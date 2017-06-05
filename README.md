@@ -1,6 +1,9 @@
 # Wallet
 Practice App to implement MVP, RxJava, Mockito, Dagger2, TDD
 
+## Sample App
+[![Get it on Google Play](http://www.android.com/images/brand/get_it_on_play_logo_small.png)](https://play.google.com/store/apps/details?id=com.firozmemon.wallet)
+
 ## Do you create accounts on multiple websites, but don't remember their password's later?
 This app is for you
 
